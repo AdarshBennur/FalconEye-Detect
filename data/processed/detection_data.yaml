@@ -1,0 +1,13 @@
+names:
+- Bird
+- drone
+nc: 2
+roboflow:
+  license: CC BY 4.0
+  project: drones-and-birds-0muie
+  url: https://universe.roboflow.com/new-workspace-x00wt/drones-and-birds-0muie/dataset/1
+  version: 1
+  workspace: new-workspace-x00wt
+test: /Users/adarsh/Labmentix/4_FalconEye-Detect/data/object_detection_dataset/test/images
+train: /Users/adarsh/Labmentix/4_FalconEye-Detect/data/object_detection_dataset/train/images
+val: /Users/adarsh/Labmentix/4_FalconEye-Detect/data/object_detection_dataset/valid/images
