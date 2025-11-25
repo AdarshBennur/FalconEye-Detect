@@ -1,0 +1,614 @@
+{
+  "custom_cnn_best": {
+    "accuracy": 0.9,
+    "correct": 9,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9914673566818237
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.8952392935752869
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.5836071968078613
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Bird",
+        "confidence": 0.8328141570091248
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.8343642354011536
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9924363493919373
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9870728254318237
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9909511804580688
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.999031662940979
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.928707480430603
+      }
+    ],
+    "errors": []
+  },
+  "custom_cnn_final": {
+    "accuracy": 0.9,
+    "correct": 9,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9914673566818237
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.8952392935752869
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.5836071968078613
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Bird",
+        "confidence": 0.8328141570091248
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.8343642354011536
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9924363493919373
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9870728254318237
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9909511804580688
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.999031662940979
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.928707480430603
+      }
+    ],
+    "errors": []
+  },
+  "transfer_efficientnetb0_final": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999997615814209
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9989099502563477
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9994940757751465
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999943971633911
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999756813049316
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9999634623527527
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9983224272727966
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.839918315410614
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9999018311500549
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9859954714775085
+      }
+    ],
+    "errors": []
+  },
+  "transfer_efficientnetb0_phase1_best": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999282360076904
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9965686798095703
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9843425750732422
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999343156814575
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9990286827087402
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9998795986175537
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9895528554916382
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.6088919639587402
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9998118877410889
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9910094738006592
+      }
+    ],
+    "errors": []
+  },
+  "transfer_efficientnetb0_phase2_best": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999990463256836
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9980348944664001
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9984253644943237
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999936819076538
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999068975448608
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.999995768070221
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9989569187164307
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.8247073888778687
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9997067451477051
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9875650405883789
+      }
+    ],
+    "errors": []
+  },
+  "transfer_mobilenetv2_final": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 1.0
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.999416708946228
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.8963483572006226
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999054670333862
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9926443099975586
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9983353018760681
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9997425675392151
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9975593686103821
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9968070387840271
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9947471022605896
+      }
+    ],
+    "errors": []
+  },
+  "transfer_mobilenetv2_phase1_best": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 1.0
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9996899366378784
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.995663583278656
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999779462814331
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9980371594429016
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9852797985076904
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.999758780002594
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9996503591537476
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.998559832572937
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9987239837646484
+      }
+    ],
+    "errors": []
+  },
+  "transfer_resnet50_final": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999173879623413
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9991198182106018
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9951516389846802
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9995679259300232
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999024868011475
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9998719692230225
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9999198913574219
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9977208971977234
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9998570680618286
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9987385869026184
+      }
+    ],
+    "errors": []
+  },
+  "transfer_resnet50_phase1_best": {
+    "accuracy": 1.0,
+    "correct": 10,
+    "total": 10,
+    "predictions": [
+      {
+        "image": "pic_653_jpg.rf.285709934373ca3da9c5567337a53804.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9973084926605225
+      },
+      {
+        "image": "foto02756_png.rf.accedf811afd3d36b45039c672fbe626.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999067783355713
+      },
+      {
+        "image": "foto04467_png.rf.266b50f45ea47fd2888f5cb1bf2f7e1a.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9957001209259033
+      },
+      {
+        "image": "pic_386_jpg.rf.eb0f2fba101c939e290605001b253890.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999537467956543
+      },
+      {
+        "image": "foto01915_png.rf.7d7cd852392707f519d13e9cf051de3f.jpg",
+        "true": "drone",
+        "predicted": "Drone",
+        "confidence": 0.9999561309814453
+      },
+      {
+        "image": "104f1bdceabcf7ba_jpg.rf.0b9745f785acd2ddb1dc562b1403efb3.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.999676525592804
+      },
+      {
+        "image": "00188d7f40a84793_jpg.rf.7f9da2b662dc236fbdcc1f22d8e0983e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9995118975639343
+      },
+      {
+        "image": "14befbece1041c7c_jpg.rf.dc8ee6ac5eab134d87b656e478380a1e.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9818581938743591
+      },
+      {
+        "image": "142b4a79c638bee1_jpg.rf.c30d6e1d4277619d80d6d6c91111e91f.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9993529915809631
+      },
+      {
+        "image": "1d59f3be2c82d51a_jpg.rf.f18abdccc69dfd0f3bd561338d398c67.jpg",
+        "true": "bird",
+        "predicted": "Bird",
+        "confidence": 0.9979110956192017
+      }
+    ],
+    "errors": []
+  }
+}
