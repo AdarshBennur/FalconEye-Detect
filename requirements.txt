@@ -14,7 +14,7 @@ ultralytics>=8.0.0
 
 # --- Computer Vision & Image Processing ---
 # Using headless for Linux/Streamlit Cloud compatibility (no GUI deps)
-opencv-python-headless==4.10.0.84
+opencv-python-headless>=4.8.0
 Pillow>=9.5.0
 
 # --- Data Science (Other) ---

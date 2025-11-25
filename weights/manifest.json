@@ -1,0 +1,69 @@
+{
+  "version": "1.0",
+  "description": "FalconEye-Detect model weights manifest",
+  "weights": {
+    "transfer_efficientnetb0_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_efficientnetb0_phase1_best.pt",
+      "size_mb": 24.63,
+      "checksum": "42bb9500aaaa2c290cd9c20b4da030421e96709da74b170017e1e30314884fd5",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_efficientnetb0_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_efficientnetb0_final.pt",
+      "size_mb": 18.61,
+      "checksum": "52a88bb439b7f6f6ae1fd760f479053abd504129aeccea17b0889ba76a2d626d",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_mobilenetv2_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_mobilenetv2_final.pt",
+      "size_mb": 11.75,
+      "checksum": "a25590b044562e8e805128c8f750f950268fb594debd0fcd1903e771c5bd2277",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_efficientnetb0_phase2_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_efficientnetb0_phase2_best.pt",
+      "size_mb": 34.97,
+      "checksum": "973f8957c2b8a9aa42e715381391617736deb1b76564a164eaea59ffbe6309c9",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "custom_cnn_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/custom_cnn_best.pt",
+      "size_mb": 16.51,
+      "checksum": "8269cd2296233033dddf65e3964ac23629e57c8614e490eaa896e93bbb46c350",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "custom_cnn_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/custom_cnn_final.pt",
+      "size_mb": 5.52,
+      "checksum": "4a2ab14a0251c9fcd5a878d3c7dbdafa372ef9a12dd18d3ad5a870f908d2d725",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_resnet50_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_resnet50_phase1_best.pt",
+      "size_mb": 103.54,
+      "checksum": "3cd649a6f92ed754287f2fd3c5b666d960d6185113e216f0c83d2854ee1c25a2",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_resnet50_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_resnet50_final.pt",
+      "size_mb": 94.51,
+      "checksum": "49176fa974e4cc26c406be5fc3ba74e0d8d2f9f2bc1886e6d9853041f3b8daf7",
+      "algorithm": "sha256",
+      "required": true
+    },
+    "transfer_mobilenetv2_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0.0/transfer_mobilenetv2_phase1_best.pt",
+      "size_mb": 17.77,
+      "checksum": "2ca77c2d5bc48ea64b5ef49f3e4e8825290d6f220f596c15140ad1e532d88470",
+      "algorithm": "sha256",
+      "required": true
+    }
+  }
+}

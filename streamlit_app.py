@@ -127,22 +127,29 @@ class FalconEyeApp:
                 import sys
                 from pathlib import Path
                 
-                fetch_script = Path(__file__).parent / "scripts" / "fetch_weights.py"
-                if fetch_script.exists():
-                    # Run weight provisioning
-                    result = subprocess.run(
-                        [sys.executable, str(fetch_script)],
-                        capture_output=True,
-                        text=True,
-                        timeout=300  # 5 min timeout
-                    )
-                    
-                    if result.returncode != 0:
-                        st.warning(f"Weight provisioning note: {result.stdout}")
+                # Use sync_weights.py for better checksum verification
+                sync_script = Path(__file__).parent / "scripts" / "sync_weights.py"
+                if sync_script.exists():
+                    # Show progress to user
+                    with st.spinner("Synchronizing model weights..."):
+                        # Run weight synchronization
+                        result = subprocess.run(
+                            [sys.executable, str(sync_script)],
+                            capture_output=True,
+                            text=True,
+                            timeout=300  # 5 min timeout
+                        )
+                        
+                        if result.returncode != 0:
+                            st.warning(f"Weight sync note: {result.stdout}")
+                        else:
+                            # Success message
+                            if "Downloaded:" in result.stdout:
+                                st.success("✅ Model weights synchronized")
                 
                 st.session_state.weights_fetched = True
             except Exception as e:
-                st.warning(f"Could not run weight provisioning: {e}")
+                st.warning(f"Could not run weight synchronization: {e}")
                 st.session_state.weights_fetched = True  # Continue anyway
         
         if 'models_loaded' not in st.session_state:

@@ -17,20 +17,56 @@ import torchvision.transforms as transforms
 
 # Lazy import cv2 to avoid numpy C-ABI mismatch crashes on Streamlit Cloud
 def _import_cv2():
-    """Lazy import cv2 with error handling"""
+    """Lazy import cv2 with error handling and auto-install fallback"""
     try:
         import importlib
         cv2 = importlib.import_module("cv2")
         return cv2
     except ImportError as e:
-        raise ImportError(
-            f"OpenCV (cv2) import failed: {e}\n"
-            "Install opencv-python-headless: pip install opencv-python-headless==4.10.0.84"
-        )
+        error_msg = str(e)
+        
+        # Check if it's the common libGL.so.1 error on Linux
+        if "libGL.so.1" in error_msg or "libgthread" in error_msg:
+            raise ImportError(
+                f"OpenCV import failed due to missing system libraries: {e}\n"
+                "This is common on headless Linux servers (Streamlit Cloud).\n"
+                "Solution: Use opencv-python-headless instead.\n"
+                "Run: pip install opencv-python-headless>=4.8.0"
+            )
+        
+        # Try to auto-install opencv-python-headless
+        print(f"⚠️  OpenCV not found: {e}")
+        print("Attempting to install opencv-python-headless...")
+        
+        try:
+            import subprocess
+            import sys
+            
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "install", "opencv-python-headless>=4.8.0"],
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+            
+            if result.returncode == 0:
+                print("✅ opencv-python-headless installed successfully")
+                # Try import again
+                cv2 = importlib.import_module("cv2")
+                return cv2
+            else:
+                raise ImportError(f"Failed to install opencv-python-headless: {result.stderr}")
+        
+        except Exception as install_error:
+            raise ImportError(
+                f"OpenCV (cv2) import failed and auto-install failed: {install_error}\n"
+                "Manual fix: pip install opencv-python-headless>=4.8.0"
+            )
+    
     except Exception as e:
         raise RuntimeError(
             f"OpenCV import error (likely numpy ABI mismatch): {e}\n"
-            "Try: pip install --force-reinstall numpy==2.1.3 opencv-python-headless==4.10.0.84"
+            "Try: pip install --force-reinstall numpy==2.1.3 opencv-python-headless>=4.8.0"
         )
 
 try:
@@ -116,6 +152,54 @@ class ModelInference:
         
         print(f"Inference device: {self.device}")
         print(f"Class names: {self.class_names}")
+        
+        # Startup logging: show weights directory contents
+        self._log_weights_directory()
+    
+    def _log_weights_directory(self):
+        """Log contents of weights directory for debugging"""
+        print(f"\n📁 Weights directory: {self.weights_path}")
+        
+        if not self.weights_path.exists():
+            print("  ⚠️  Directory does not exist!")
+            logger.warning(f"Weights directory not found: {self.weights_path}")
+            return
+        
+        # List all .pt files
+        pt_files = list(self.weights_path.glob("*.pt"))
+        
+        if not pt_files:
+            print("  ⚠️  No .pt files found!")
+            logger.warning("No .pt files in weights directory")
+            return
+        
+        print(f"  Found {len(pt_files)} .pt file(s):")
+        total_size = 0
+        
+        for pt_file in sorted(pt_files):
+            size_bytes = pt_file.stat().st_size
+            size_mb = size_bytes / (1024 * 1024)
+            total_size += size_mb
+            
+            # Check if it's a Git LFS pointer
+            is_lfs = False
+            if size_bytes < 1024:  # Less than 1KB might be LFS pointer
+                try:
+                    with open(pt_file, 'r') as f:
+                        content = f.read(200)
+                        if 'version https://git-lfs.github.com' in content:
+                            is_lfs = True
+                except:
+                    pass
+            
+            status = "LFS POINTER" if is_lfs else f"{size_mb:.1f} MB"
+            icon = "⚠️" if is_lfs else "✓"
+            print(f"    {icon} {pt_file.name:<50} {status}")
+            
+            if is_lfs:
+                logger.warning(f"File is Git LFS pointer: {pt_file.name}")
+        
+        print(f"  Total size: {total_size:.1f} MB\n")
     
     def load_classification_model(self, model_path, model_name, model_type='custom_cnn'):
         """Load a PyTorch classification model"""
