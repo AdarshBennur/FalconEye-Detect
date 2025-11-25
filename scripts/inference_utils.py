@@ -37,6 +37,38 @@ from data_preprocessing import DataPreprocessor
 from train_custom_cnn import CustomCNN
 from train_transfer_learning import TransferLearningModel
 
+# Logging setup
+import logging
+
+def get_device():
+    """Detect best available device for inference (MPS > CUDA > CPU)"""
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+        return torch.device('mps')
+    return torch.device('cpu')
+
+def setup_loading_logger():
+    """Setup logging for model loading warnings and errors"""
+    log_dir = Path(__file__).parent.parent / "results"
+    log_dir.mkdir(exist_ok=True)
+    
+    logger = logging.getLogger('model_loading')
+    logger.setLevel(logging.WARNING)
+    
+    # Clear existing handlers to avoid duplicates
+    logger.handlers.clear()
+    
+    handler = logging.FileHandler(log_dir / "loading_warnings.log")
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    
+    return logger
+
+# Initialize logger
+logger = setup_loading_logger()
+
 
 class ModelInference:
     """Handles model loading and inference for both classification and detection"""
@@ -52,13 +84,8 @@ class ModelInference:
         self.classification_models = {}
         self.detection_models = {}
         
-        # Device selection: MPS (Mac M1/M2) -> CUDA -> CPU
-        if torch.backends.mps.is_available():
-            self.device = torch.device("mps")
-        elif torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        else:
-            self.device = torch.device("cpu")
+        # Device selection using helper function
+        self.device = get_device()
         
         # Image preprocessing transform (same as validation transform)
         self.transform = transforms.Compose([
@@ -66,9 +93,11 @@ class ModelInference:
             transforms.ToTensor(),
         ])
         
-        self.class_names = ['Bird', 'Drone']
+        # Get class names using smart fallback strategy
+        self.class_names = self.get_class_names()
         
         print(f"Inference device: {self.device}")
+        print(f"Class names: {self.class_names}")
     
     def load_classification_model(self, model_path, model_name, model_type='custom_cnn'):
         """Load a PyTorch classification model"""
@@ -103,9 +132,9 @@ class ModelInference:
             return True
             
         except Exception as e:
-            print(f"Error loading classification model '{model_name}': {str(e)}")
+            logger.error(f"Error loading classification model '{model_name}' from {model_path}: {str(e)}")
             import traceback
-            traceback.print_exc()
+            logger.error(traceback.format_exc())
             return False
     
     def load_detection_model(self, model_path, model_name):
@@ -120,36 +149,134 @@ class ModelInference:
             print(f"Error loading detection model '{model_name}': {str(e)}")
             return False
     
+    def get_class_names(self):
+        """Get class names with proper fallback strategy"""
+        
+        # Strategy 1: detection_data.yaml
+        yaml_path = self.base_path / "data" / "processed" / "detection_data.yaml"
+        if yaml_path.exists():
+            try:
+                import yaml
+                with open(yaml_path) as f:
+                    data = yaml.safe_load(f)
+                
+                names = data.get('names', [])
+                if names:
+                    # Normalize capitalization for consistency
+                    normalized = [name.capitalize() for name in names]
+                    logger.info(f"Loaded class names from {yaml_path}: {normalized}")
+                    return normalized
+            except Exception as e:
+                logger.warning(f"Failed to load class names from {yaml_path}: {e}")
+        
+        # Strategy 2: Classification dataset folder structure
+        train_path = self.base_path / "data" / "classification_dataset" / "train"
+        if train_path.exists():
+            try:
+                class_dirs = sorted([d.name for d in train_path.iterdir() if d.is_dir()])
+                if class_dirs:
+                    # Normalize capitalization
+                    normalized = [name.capitalize() for name in class_dirs]
+                    logger.info(f"Using class names from dataset structure: {normalized}")
+                    return normalized
+            except Exception as e:
+                logger.warning(f"Failed to read dataset structure: {e}")
+        
+        # Strategy 3: Hardcoded fallback
+        logger.warning("Using fallback class names: ['Bird', 'Drone']")
+        return ['Bird', 'Drone']
+    
+    def discover_classification_models(self):
+        """Auto-discover classification models in weights folder"""
+        discovered = {}
+        
+        if not self.weights_path.exists():
+            logger.warning(f"Weights path does not exist: {self.weights_path}")
+            return discovered
+        
+        # Scan for all .pt files
+        for pt_file in self.weights_path.glob("*.pt"):
+            # Skip YOLO models
+            if "yolo" in pt_file.stem.lower():
+                continue
+            
+            model_name = pt_file.stem
+            
+            # Infer model type from filename
+            if model_name.startswith("custom_cnn"):
+                model_type = "custom_cnn"
+            elif model_name.startswith("transfer_"):
+                # Extract base model: transfer_resnet50_phase2_best → resnet50
+                parts = model_name.replace("transfer_", "").split("_")
+                # Take first part as base model name
+                base_model = parts[0]  # resnet50, mobilenetv2, efficientnetb0
+                
+                # Validate it's a known architecture
+                known_archs = ['resnet50', 'mobilenetv2', 'efficientnetb0', 'resnet18', 'resnet34', 'resnet101']
+                if base_model not in known_archs:
+                    logger.warning(f"Unknown architecture '{base_model}' in {model_name}, skipping")
+                    continue
+                
+                model_type = f"transfer_{base_model}"
+            else:
+                logger.warning(f"Cannot infer type for {model_name}, skipping")
+                continue
+            
+            discovered[model_name] = {
+                'path': pt_file,
+                'type': model_type,
+                'size_mb': pt_file.stat().st_size / (1024 * 1024)
+            }
+        
+        return discovered
+    
     def load_all_available_models(self):
-        """Load all available trained models"""
+        """Load all available trained models using auto-discovery"""
         
         print("Loading available models...")
+        logger.info("Starting model auto-discovery")
         
-        # Classification models
-        classification_model_configs = [
-            ('custom_cnn', 'custom_cnn_best.pt', 'custom_cnn'),
-            ('transfer_resnet50', 'transfer_resnet50_phase2_best.pt', 'transfer_resnet50'),
-            ('transfer_mobilenetv2', 'transfer_mobilenetv2_phase2_best.pt', 'transfer_mobilenetv2'),
-            ('transfer_efficientnetb0', 'transfer_efficientnetb0_phase2_best.pt', 'transfer_efficientnetb0'),
-        ]
+        # Auto-discover classification models
+        discovered_models = self.discover_classification_models()
         
-        for model_name, filename, model_type in classification_model_configs:
-            model_path = self.weights_path / filename
-            if model_path.exists():
-                self.load_classification_model(model_path, model_name, model_type)
-            else:
-                # Try alternative paths (final models)
-                alt_path = self.weights_path / filename.replace('_best', '_final')
-                if alt_path.exists():
-                    self.load_classification_model(alt_path, model_name, model_type)
+        if not discovered_models:
+            logger.warning("No classification models discovered in weights folder")
+            print("⚠️  No classification models found in weights folder")
+        else:
+            print(f"Discovered {len(discovered_models)} classification model(s) in weights folder")
         
-        # Detection models
+        # Attempt to load each discovered model
+        loaded_count = 0
+        failed_count = 0
+        
+        for model_name, info in discovered_models.items():
+            try:
+                success = self.load_classification_model(
+                    info['path'], 
+                    model_name, 
+                    info['type']
+                )
+                if success:
+                    loaded_count += 1
+                else:
+                    failed_count += 1
+            except Exception as e:
+                failed_count += 1
+                logger.error(f"Exception loading {model_name}: {e}")
+        
+        # Detection models (YOLO)
         yolo_path = self.weights_path / "yolov8s_trained.pt"
         if yolo_path.exists():
             self.load_detection_model(yolo_path, "yolov8")
         
-        print(f"Loaded {len(self.classification_models)} classification model(s)")
+        # Print summary
+        total_discovered = len(discovered_models)
+        print(f"Loaded {loaded_count}/{total_discovered} classification model(s)")
+        if failed_count > 0:
+            print(f"⚠️  {failed_count} model(s) failed to load (check results/loading_warnings.log)")
         print(f"Loaded {len(self.detection_models)} detection model(s)")
+        
+        logger.info(f"Model loading complete: {loaded_count}/{total_discovered} classification, {len(self.detection_models)} detection")
     
     def preprocess_image_for_classification(self, image_input):
         """Preprocess image for classification models"""

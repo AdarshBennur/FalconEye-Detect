@@ -1,0 +1,32 @@
+{
+  "evaluation_date": "2025-11-20T20:28:44.982609",
+  "classification_models": 2,
+  "detection_models": 0,
+  "models_compared": 2,
+  "classification_comparison": [
+    {
+      "Model": "Custom CNN",
+      "Accuracy": 0.8790697674418605,
+      "Precision": 0.9146341463414634,
+      "Recall": 0.7978723404255319,
+      "F1-Score": 0.8522727272727273,
+      "ROC AUC": 0.944786354844382
+    },
+    {
+      "Model": "Transfer EfficientNetB0",
+      "Accuracy": 0.9767441860465116,
+      "Precision": 0.989010989010989,
+      "Recall": 0.9574468085106383,
+      "F1-Score": 0.972972972972973,
+      "ROC AUC": 0.9866361877967296
+    }
+  ],
+  "best_accuracy_model": {
+    "name": "Transfer EfficientNetB0",
+    "accuracy": 0.9767441860465116
+  },
+  "best_f1_model": {
+    "name": "Transfer EfficientNetB0",
+    "f1_score": 0.972972972972973
+  }
+}

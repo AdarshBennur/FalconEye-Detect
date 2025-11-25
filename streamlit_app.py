@@ -79,30 +79,74 @@ class FalconEyeApp:
     """Main Streamlit application class"""
     
     def __init__(self):
+        # Initialize instance variables for model tracking
         self.inference = None
         self.streamlit_utils = None
+        self.classification_count = 0
+        self.detection_count = 0
+        self.model_info = None
+        
+        # Initialize the application
         self.initialize_app()
+    
+    def load_models(self):
+        """Load all available models and store counts"""
+        try:
+            self.inference = ModelInference()
+            self.inference.load_all_available_models()
+            
+            # Store model counts as instance variables
+            self.classification_count = len(self.inference.classification_models)
+            self.detection_count = len(self.inference.detection_models)
+            
+            # Store model information
+            self.model_info = self.inference.get_model_info()
+            
+            return True
+        except Exception as e:
+            st.error(f"Error loading models: {str(e)}")
+            return False
+    
+    def validate_models(self):
+        """Validate that at least one model is loaded"""
+        total_models = self.classification_count + self.detection_count
+        
+        if total_models > 0:
+            return True
+        else:
+            st.session_state.error_message = "No trained models found. Please train models first."
+            return False
     
     def initialize_app(self):
         """Initialize the application and load models"""
         
         if 'models_loaded' not in st.session_state:
             with st.spinner("Loading models..."):
-                self.inference = ModelInference()
-                self.inference.load_all_available_models()
-                
-                if num_models > 0:
-                    self.streamlit_utils = StreamlitInferenceUtils(self.inference)
-                    st.session_state.models_loaded = True
-                    st.session_state.inference = self.inference
-                    st.session_state.streamlit_utils = self.streamlit_utils
-                    st.session_state.model_info = self.inference.get_model_info()
+                # Load models using new method
+                if self.load_models():
+                    # Validate models
+                    if self.validate_models():
+                        self.streamlit_utils = StreamlitInferenceUtils(self.inference)
+                        
+                        # Store in session state for persistence
+                        st.session_state.models_loaded = True
+                        st.session_state.inference = self.inference
+                        st.session_state.streamlit_utils = self.streamlit_utils
+                        st.session_state.model_info = self.model_info
+                        st.session_state.classification_count = self.classification_count
+                        st.session_state.detection_count = self.detection_count
+                    else:
+                        st.session_state.models_loaded = False
                 else:
                     st.session_state.models_loaded = False
-                    st.session_state.error_message = "No trained models found. Please train models first."
+                    st.session_state.error_message = "Failed to load models."
         else:
+            # Restore from session state
             self.inference = st.session_state.inference
             self.streamlit_utils = st.session_state.streamlit_utils
+            self.model_info = st.session_state.model_info
+            self.classification_count = st.session_state.classification_count
+            self.detection_count = st.session_state.detection_count
     
     def render_header(self):
         """Render application header"""
@@ -154,16 +198,31 @@ class FalconEyeApp:
             detection_model = None
             st.sidebar.warning("No detection models available")
         
-        # Task selection
+        # Task selection - dynamically determine available options
         st.sidebar.subheader("🎯 Task Selection")
+        
+        # Build task options based on available models
+        task_options = []
+        if self.classification_count > 0:
+            task_options.append('Classification')
+        if self.detection_count > 0:
+            task_options.append('Detection')
+        if self.classification_count > 0 and self.detection_count > 0:
+            task_options.append('Both')
+        
+        # Set default task
+        default_task = task_options[0] if task_options else 'Classification'
+        
+        # Show task selection
         task = st.sidebar.radio(
             "Select Task",
-            options=['Classification', 'Detection', 'Both'],
+            options=task_options,
+            index=0,
             help="Choose what type of analysis to perform"
         )
         
-        # Detection settings
-        if task in ['Detection', 'Both'] and model_info['detection_models']:
+        # Detection settings - only show if detection models are available
+        if task in ['Detection', 'Both'] and self.detection_count > 0:
             st.sidebar.subheader("⚙️ Detection Settings")
             confidence_threshold = st.sidebar.slider(
                 "Confidence Threshold",
@@ -291,31 +350,75 @@ class FalconEyeApp:
     def process_image(self, image_source, settings):
         """Process image with selected models and settings"""
         
+        # Check if models are loaded
         if not st.session_state.models_loaded:
-            st.error("Models not loaded!")
-            return
+            st.error("❌ Models not loaded! Please ensure models are trained and available.")
+            return None
+        
+        # Validate image input
+        if image_source is None:
+            st.warning("⚠️ No image provided. Please upload or select an image.")
+            return None
+        
+        # Validate image type
+        if not isinstance(image_source, (Image.Image, np.ndarray, str)):
+            st.error("❌ Invalid image type. Expected PIL Image, numpy array, or file path.")
+            return None
+        
+        # Check model availability for selected task
+        task = settings.get('task', 'classification')
+        if task in ['classification', 'both'] and self.classification_count == 0:
+            st.error("❌ No classification models available. Please train a classification model first.")
+            return None
+        
+        if task in ['detection', 'both'] and self.detection_count == 0:
+            st.error("❌ No detection models available. Please train a detection model first.")
+            return None
         
         with st.spinner("Processing image..."):
             try:
                 # Convert PIL image to numpy array if needed
                 if isinstance(image_source, Image.Image):
+                    # Validate PIL Image
+                    if image_source.size[0] == 0 or image_source.size[1] == 0:
+                        st.error("❌ Invalid image dimensions. Image has zero width or height.")
+                        return None
                     image_array = np.array(image_source)
+                elif isinstance(image_source, str):
+                    # Load from file path
+                    if not os.path.exists(image_source):
+                        st.error(f"❌ Image file not found: {image_source}")
+                        return None
+                    image = Image.open(image_source)
+                    image_array = np.array(image)
                 else:
                     image_array = image_source
+                
+                # Validate numpy array dimensions
+                if image_array.size == 0:
+                    st.error("❌ Invalid image. Image array is empty.")
+                    return None
                 
                 # Make predictions
                 results = self.inference.predict_and_visualize(
                     image_array,
-                    task=settings['task'],
-                    classification_model=settings['classification_model'],
-                    detection_model=settings['detection_model'],
-                    conf_threshold=settings['confidence_threshold']
+                    task=task,
+                    classification_model=settings.get('classification_model'),
+                    detection_model=settings.get('detection_model'),
+                    conf_threshold=settings.get('confidence_threshold', 0.5)
                 )
                 
                 return results
                 
+            except FileNotFoundError as e:
+                st.error(f"❌ File not found: {str(e)}")
+                return None
+            except ValueError as e:
+                st.error(f"❌ Invalid image format: {str(e)}")
+                return None
             except Exception as e:
-                st.error(f"Error processing image: {str(e)}")
+                st.error(f"❌ Error processing image: {str(e)}")
+                st.exception(e)  # Show full traceback for debugging
                 return None
     
     def display_results(self, results, settings):
@@ -451,28 +554,62 @@ class FalconEyeApp:
             st.write(f"**Selected {len(uploaded_files)} images**")
             
             if st.button("Process All Images"):
+                # Validate that classification models are available
+                if self.classification_count == 0:
+                    st.error("❌ No classification models available for batch processing.")
+                    return
+                
                 with st.spinner(f"Processing {len(uploaded_files)} images..."):
                     results = []
+                    errors = []
                     
                     progress_bar = st.progress(0)
+                    status_text = st.empty()
                     
                     for i, uploaded_file in enumerate(uploaded_files):
                         # Update progress
                         progress_bar.progress((i + 1) / len(uploaded_files))
+                        status_text.text(f"Processing {uploaded_file.name}...")
                         
-                        # Process image
-                        image = Image.open(uploaded_file)
-                        result = self.inference.predict_classification(np.array(image))
-                        
-                        if result:
-                            results.append({
+                        # Process image with error handling
+                        try:
+                            image = Image.open(uploaded_file)
+                            
+                            # Validate image
+                            if image.size[0] == 0 or image.size[1] == 0:
+                                errors.append({
+                                    'filename': uploaded_file.name,
+                                    'error': 'Invalid dimensions'
+                                })
+                                continue
+                            
+                            result = self.inference.predict_classification(np.array(image))
+                            
+                            if result:
+                                results.append({
+                                    'filename': uploaded_file.name,
+                                    'predicted_class': result['class_name'],
+                                    'confidence': result['confidence']
+                                })
+                            else:
+                                errors.append({
+                                    'filename': uploaded_file.name,
+                                    'error': 'Prediction failed'
+                                })
+                        except Exception as e:
+                            errors.append({
                                 'filename': uploaded_file.name,
-                                'predicted_class': result['class_name'],
-                                'confidence': result['confidence']
+                                'error': str(e)
                             })
                     
-                    # Display results table
+                    # Clear progress indicators
+                    progress_bar.empty()
+                    status_text.empty()
+                    
+                    # Display results
                     if results:
+                        st.success(f"✅ Successfully processed {len(results)} out of {len(uploaded_files)} images")
+                        
                         df = pd.DataFrame(results)
                         
                         st.subheader("Batch Processing Results")
@@ -500,6 +637,15 @@ class FalconEyeApp:
                             file_name="falcon_eye_batch_results.csv",
                             mime="text/csv"
                         )
+                    else:
+                        st.warning("⚠️ No images were successfully processed.")
+                    
+                    # Show errors if any
+                    if errors:
+                        with st.expander(f"⚠️ {len(errors)} image(s) failed to process"):
+                            error_df = pd.DataFrame(errors)
+                            st.dataframe(error_df, use_container_width=True)
+
     
     def render_about(self):
         """Render about section"""

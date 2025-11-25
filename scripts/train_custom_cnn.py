@@ -175,18 +175,19 @@ class CustomCNNTrainer:
             min_lr=1e-7
         )
         
-        # Mixed Precision Training (AMP) for faster training on MPS/CUDA
-        self.use_amp = use_amp and (self.device.type in ['mps', 'cuda'])
+        # Mixed Precision Training (AMP) for faster training
+        # Note: MPS doesn't fully support FP16 yet (causes crashes with BatchNorm)
+        # Only enable AMP for CUDA
+        self.use_amp = use_amp and (self.device.type == 'cuda')
         if self.use_amp:
-            # Use device-specific scaler
-            if self.device.type == 'mps':
-                self.scaler = torch.amp.GradScaler('mps')
-            else:
-                self.scaler = torch.amp.GradScaler('cuda')
+            self.scaler = torch.amp.GradScaler('cuda')
             print(f"✓ Mixed Precision (AMP) enabled for {self.device.type}")
         else:
             self.scaler = None
-            print("✗ Mixed Precision (AMP) disabled (CPU mode)")
+            if self.device.type == 'mps':
+                print("ℹ️  MPS detected: Using FP32 (AMP disabled due to MPS limitations)")
+            else:
+                print("✗ Mixed Precision (AMP) disabled (CPU mode)")
         
         print("Model compiled successfully!")
         print(f"Optimizer: Adam (lr={learning_rate})")

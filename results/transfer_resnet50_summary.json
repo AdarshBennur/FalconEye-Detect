@@ -1,0 +1,22 @@
+{
+  "model_name": "transfer_resnet50",
+  "base_model": "resnet50",
+  "training_completed": "2025-11-20T19:16:13.211095",
+  "total_epochs": 43,
+  "best_validation_accuracy": 0.9888392857142857,
+  "best_validation_loss": 0.03965761448073733,
+  "best_epoch": 8,
+  "final_training_accuracy": 0.9910714285714286,
+  "final_validation_accuracy": 0.984375,
+  "total_parameters": 24690241,
+  "trainable_parameters": 10111489,
+  "architecture": "Transfer Learning (PyTorch)",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "optimizer": "Adam",
+  "loss_function": "BCELoss",
+  "device": "mps"
+}

@@ -1,0 +1,20 @@
+{
+  "model_name": "custom_cnn",
+  "training_completed": "2025-11-20T17:22:19.237081",
+  "total_epochs": 82,
+  "best_validation_accuracy": 0.885302198784692,
+  "best_validation_loss": 0.3053875405873571,
+  "best_epoch": 67,
+  "final_training_accuracy": 0.8484623017055648,
+  "final_validation_accuracy": 0.8569711574486324,
+  "model_parameters": 1437921,
+  "architecture": "Custom CNN (PyTorch)",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "optimizer": "Adam",
+  "loss_function": "BCELoss",
+  "device": "mps"
+}

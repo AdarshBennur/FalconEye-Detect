@@ -1,0 +1,22 @@
+{
+  "model_name": "transfer_efficientnetb0",
+  "base_model": "efficientnetb0",
+  "training_completed": "2025-11-20T20:18:57.964490",
+  "total_epochs": 45,
+  "best_validation_accuracy": 0.9682348924023765,
+  "best_validation_loss": 0.11477137177384325,
+  "best_epoch": 42,
+  "final_training_accuracy": 0.9723462306317829,
+  "final_validation_accuracy": 0.9548420352595193,
+  "total_parameters": 4796541,
+  "trainable_parameters": 2141105,
+  "architecture": "Transfer Learning (PyTorch)",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "optimizer": "Adam",
+  "loss_function": "BCELoss",
+  "device": "mps"
+}

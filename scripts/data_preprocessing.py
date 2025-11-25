@@ -229,7 +229,8 @@ class DataPreprocessor:
             num_workers = 0  # Safe default for macOS MPS
         
         # Detect if MPS is available for pin_memory optimization
-        use_pin_memory = (torch.cuda.is_available() or torch.backends.mps.is_available())
+        # Note: MPS doesn't support pin_memory yet, so disable it for MPS
+        use_pin_memory = torch.cuda.is_available()  # Only enable for CUDA
         
         # Create datasets
         train_dataset = BirdDroneDataset(

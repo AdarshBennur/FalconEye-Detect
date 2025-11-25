@@ -584,16 +584,98 @@ class ModelEvaluator:
         return results_list, report
 
 
+def load_test_samples(n=10):
+    """Load a small set of labeled test images for sanity checks"""
+    
+    project_root = Path(__file__).parent.parent
+    test_path = project_root / "data" / "classification_dataset" / "test"
+    
+    if not test_path.exists():
+        print(f"Test path not found: {test_path}")
+        return []
+    
+    samples = []
+    
+    for class_dir in test_path.iterdir():
+        if not class_dir.is_dir():
+            continue
+        
+        class_name = class_dir.name
+        images = list(class_dir.glob("*.jpg")) + list(class_dir.glob("*.png"))
+        
+        # Take first n//2 images from each class
+        for img_path in images[:n//2]:
+            samples.append((img_path, class_name))
+    
+    return samples[:n]
+
+
+
 def main():
     """Main evaluation function"""
     
-    evaluator = ModelEvaluator()
-    results, report = evaluator.evaluate_all_models()
+    import argparse
     
-    if results:
-        print("\nModel evaluation completed successfully!")
+    parser = argparse.ArgumentParser(description='FalconEye Model Evaluation')
+    parser.add_argument('--sanity-check', action='store_true',
+                       help='Run quick sanity check on a small test subset')
+    
+    args = parser.parse_args()
+    
+    if args.sanity_check:
+        print("Running quick sanity check...")
+        print("For full testing, run: python3 scripts/tests/test_inference.py")
+        print("\nThis is just a quick validation. Use test_inference.py for comprehensive results.\n")
+        
+        sys.path.insert(0, str(Path(__file__).parent))
+        from inference_utils import ModelInference
+        
+        # Load models
+        inference = ModelInference()
+        inference.load_all_available_models()
+        
+        if not inference.classification_models:
+            print("❌ No classification models loaded")
+            return 1
+        
+        # Load small test set
+        test_samples = load_test_samples(n=10)
+        
+        if not test_samples:
+            print("❌ No test samples found")
+            return 1
+        
+        print(f"Testing {len(inference.classification_models)} model(s) on {len(test_samples)} images\n")
+        print(f"{'Model':<45} {'Accuracy':>10}")
+        print("=" * 60)
+        
+        # Test each model
+        for model_name in sorted(inference.classification_models.keys()):
+            correct = 0
+            
+            for img_path, true_label in test_samples:
+                try:
+                    result = inference.predict_classification(str(img_path), model_name=model_name)
+                    if result and result['class_name'].lower() == true_label.lower():
+                        correct += 1
+                except:
+                    pass
+            
+            accuracy = correct / len(test_samples) if test_samples else 0
+            status = "✅" if accuracy > 0.6 else "⚠️"
+            print(f"{status} {model_name:<42} {accuracy:>9.1%}")
+        
+        print("\n✅ Sanity check complete!")
+        return 0
     else:
-        print("\nNo models were evaluated. Please train models first.")
+        # Full evaluation
+        evaluator = ModelEvaluator()
+        results, report = evaluator.evaluate_all_models()
+        
+        if results:
+            print("\nModel evaluation completed successfully!")
+        else:
+            print("\nNo models were evaluated. Please train models first.")
 
 
 if __name__ == "__main__":

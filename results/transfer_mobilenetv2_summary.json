@@ -1,0 +1,22 @@
+{
+  "model_name": "transfer_mobilenetv2",
+  "base_model": "mobilenetv2",
+  "training_completed": "2025-11-20T19:48:48.650802",
+  "total_epochs": 45,
+  "best_validation_accuracy": 0.9866071428571429,
+  "best_validation_loss": 0.06707806358047362,
+  "best_epoch": 24,
+  "final_training_accuracy": 0.9888392857142857,
+  "final_validation_accuracy": 0.9776785714285714,
+  "total_parameters": 3012865,
+  "trainable_parameters": 1841473,
+  "architecture": "Transfer Learning (PyTorch)",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "optimizer": "Adam",
+  "loss_function": "BCELoss",
+  "device": "mps"
+}
