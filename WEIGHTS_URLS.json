@@ -1,0 +1,50 @@
+{
+  "note": "Replace URLs with actual download links from GitHub Releases or S3",
+  "weights": {
+    "transfer_efficientnetb0_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_efficientnetb0_phase1_best.pt",
+      "size_mb": 24.63,
+      "required": false
+    },
+    "transfer_efficientnetb0_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_efficientnetb0_final.pt",
+      "size_mb": 18.61,
+      "required": false
+    },
+    "transfer_mobilenetv2_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_mobilenetv2_final.pt",
+      "size_mb": 11.75,
+      "required": false
+    },
+    "transfer_efficientnetb0_phase2_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_efficientnetb0_phase2_best.pt",
+      "size_mb": 34.97,
+      "required": false
+    },
+    "custom_cnn_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/custom_cnn_best.pt",
+      "size_mb": 16.51,
+      "required": false
+    },
+    "custom_cnn_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/custom_cnn_final.pt",
+      "size_mb": 5.52,
+      "required": false
+    },
+    "transfer_resnet50_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_resnet50_phase1_best.pt",
+      "size_mb": 103.54,
+      "required": false
+    },
+    "transfer_resnet50_final.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_resnet50_final.pt",
+      "size_mb": 94.51,
+      "required": false
+    },
+    "transfer_mobilenetv2_phase1_best.pt": {
+      "url": "https://github.com/YOUR_USERNAME/FalconEye-Detect/releases/download/v1.0/transfer_mobilenetv2_phase1_best.pt",
+      "size_mb": 17.77,
+      "required": false
+    }
+  }
+}

@@ -120,6 +120,31 @@ class FalconEyeApp:
     def initialize_app(self):
         """Initialize the application and load models"""
         
+        # Ensure weights are available (for Streamlit Cloud deployment)
+        if 'weights_fetched' not in st.session_state:
+            try:
+                import subprocess
+                import sys
+                from pathlib import Path
+                
+                fetch_script = Path(__file__).parent / "scripts" / "fetch_weights.py"
+                if fetch_script.exists():
+                    # Run weight provisioning
+                    result = subprocess.run(
+                        [sys.executable, str(fetch_script)],
+                        capture_output=True,
+                        text=True,
+                        timeout=300  # 5 min timeout
+                    )
+                    
+                    if result.returncode != 0:
+                        st.warning(f"Weight provisioning note: {result.stdout}")
+                
+                st.session_state.weights_fetched = True
+            except Exception as e:
+                st.warning(f"Could not run weight provisioning: {e}")
+                st.session_state.weights_fetched = True  # Continue anyway
+        
         if 'models_loaded' not in st.session_state:
             with st.spinner("Loading models..."):
                 # Load models using new method
@@ -135,6 +160,10 @@ class FalconEyeApp:
                         st.session_state.model_info = self.model_info
                         st.session_state.classification_count = self.classification_count
                         st.session_state.detection_count = self.detection_count
+                        
+                        # Store loaded model names for debugging
+                        st.session_state.loaded_classification_models = list(self.inference.classification_models.keys())
+                        st.session_state.loaded_detection_models = list(self.inference.detection_models.keys())
                     else:
                         st.session_state.models_loaded = False
                 else:
@@ -246,6 +275,18 @@ class FalconEyeApp:
             st.metric("Detection Models", len(model_info['detection_models']))
         
         st.sidebar.info(f"**Classes:** {', '.join(model_info['class_names'])}")
+        
+        # Debug: Show loaded models
+        with st.sidebar.expander("🔍 Loaded Models (Debug)", expanded=False):
+            if 'loaded_classification_models' in st.session_state:
+                st.write("**Classification:**")
+                for model in st.session_state.loaded_classification_models:
+                    st.text(f"✓ {model}")
+            
+            if 'loaded_detection_models' in st.session_state:
+                st.write("**Detection:**")
+                for model in st.session_state.loaded_detection_models:
+                    st.text(f"✓ {model}")
         
         return {
             'classification_model': classification_model,

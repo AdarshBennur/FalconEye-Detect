@@ -6,7 +6,7 @@ on new images for both classification and object detection tasks.
 
 import os
 import numpy as np
-import cv2
+# cv2 is lazy-imported to avoid binary incompatibility issues on deploy
 from pathlib import Path
 import json
 from PIL import Image
@@ -14,6 +14,24 @@ from PIL import Image
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
+
+# Lazy import cv2 to avoid numpy C-ABI mismatch crashes on Streamlit Cloud
+def _import_cv2():
+    """Lazy import cv2 with error handling"""
+    try:
+        import importlib
+        cv2 = importlib.import_module("cv2")
+        return cv2
+    except ImportError as e:
+        raise ImportError(
+            f"OpenCV (cv2) import failed: {e}\n"
+            "Install opencv-python-headless: pip install opencv-python-headless==4.10.0.84"
+        )
+    except Exception as e:
+        raise RuntimeError(
+            f"OpenCV import error (likely numpy ABI mismatch): {e}\n"
+            "Try: pip install --force-reinstall numpy==2.1.3 opencv-python-headless==4.10.0.84"
+        )
 
 try:
     from ultralytics import YOLO
@@ -289,6 +307,7 @@ class ModelInference:
             # Numpy array (BGR from OpenCV)
             if len(image_input.shape) == 3 and image_input.shape[2] == 3:
                 # Convert BGR to RGB
+                cv2 = _import_cv2()
                 image_rgb = cv2.cvtColor(image_input, cv2.COLOR_BGR2RGB)
                 image = Image.fromarray(image_rgb)
             else:
@@ -412,6 +431,7 @@ class ModelInference:
         """Annotate image with detection results"""
         
         # Handle image input
+        cv2 = _import_cv2()
         if isinstance(image, str) or isinstance(image, Path):
             img = cv2.imread(str(image))
         elif isinstance(image, np.ndarray):
@@ -559,6 +579,7 @@ class StreamlitInferenceUtils:
         
         # Convert to PIL if needed
         if isinstance(image, np.ndarray):
+            cv2 = _import_cv2()
             image_pil = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         else:
             image_pil = image

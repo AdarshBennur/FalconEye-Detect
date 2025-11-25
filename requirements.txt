@@ -1,5 +1,9 @@
 # ========== FalconEye-Detect Dependencies (Clean + Correct) ==========
 
+# CRITICAL: Install numpy FIRST to avoid C-ABI mismatches with opencv
+# --- Data Science (Core) ---
+numpy==2.1.3
+
 # --- Deep Learning (PyTorch) ---
 torch>=2.0.0
 torchvision>=0.15.0
@@ -9,11 +13,11 @@ torchaudio>=2.0.0     # optional but useful for PyTorch compatibility
 ultralytics>=8.0.0
 
 # --- Computer Vision & Image Processing ---
-opencv-python-headless==4.8.0.74
+# Using headless for Linux/Streamlit Cloud compatibility (no GUI deps)
+opencv-python-headless==4.10.0.84
 Pillow>=9.5.0
 
-# --- Data Science ---
-numpy>=1.24.0
+# --- Data Science (Other) ---
 pandas>=2.0.0
 scikit-learn>=1.3.0
 
@@ -28,7 +32,7 @@ streamlit>=1.25.0
 # --- Config & Utilities ---
 PyYAML>=6.0
 pathlib2>=2.3.0
-tqdm>=4.67.1     # <== MISSING DEPENDENCY (added)
+tqdm>=4.67.1
 
 # --- Optional Dev Tools ---
 # jupyter>=1.0.0
