@@ -141,6 +141,7 @@ Thumbs.db
 # Model weights and large files
 *.pth
 *.pt
+!weights/*.pt
 *.h5
 *.ckpt
 *.safetensors
